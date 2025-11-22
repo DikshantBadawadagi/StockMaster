@@ -1,12 +1,11 @@
-import moveHistory from "../dummy/moveHistory.js"; 
+import moveHistory from "../dummy/moveHistory.js";
 import StockLedgerEntryModel from "../models/StockLedgerEntry.model.js";
-import ProductModel from "../models/Product.model.js";
-import WarehouseModel from "../models/Warehouse.model.js";
-import LocationModel from "../models/Location.model.js";
-import User from "../models/User.js";
+import ReceiptModel from "../models/Receipt.model.js";
+import DeliveryOrderModel from "../models/DeliveryOrder.model.js";
+import InternalTransferModel from "../models/InternalTransfer.model.js";
+import StockAdjustmentModel from "../models/StockAdjustment.model.js";
 
-// Toggle this to true when Dev1/Dev2 finish STOCK LEDGER
-const USE_REAL_DATA = true;
+const USE_REAL_DATA = false;
 
 export const getMoveHistory = async (req, res) => {
   try {
@@ -19,23 +18,14 @@ export const getMoveHistory = async (req, res) => {
       toDate
     } = req.query;
 
-    let result = [];
-
-    // ---------------------------------------------------
-    // DUMMY MODE — USE THE FAKE ARRAY (Works for Dev3 now)
-    // ---------------------------------------------------
+    // --------------------------------------------------------------------
+    //  1. DUMMY MODE - FOR DEV3 IMMEDIATE WORK
+    // --------------------------------------------------------------------
     if (!USE_REAL_DATA) {
-      result = [...moveHistory];
+      let result = [...moveHistory];
 
-      // FILTERS
-
-      if (documentType) {
-        result = result.filter(m => m.documentType === documentType);
-      }
-
-      if (status) {
-        result = result.filter(m => m.status === status);
-      }
+      if (documentType) result = result.filter(m => m.documentType === documentType);
+      if (status) result = result.filter(m => m.status === status);
 
       if (product) {
         result = result.filter(m =>
@@ -45,37 +35,28 @@ export const getMoveHistory = async (req, res) => {
 
       if (warehouse) {
         result = result.filter(m =>
-          (m.warehouse || "")
-            .toLowerCase()
-            .includes(warehouse.toLowerCase())
+          m.warehouse.toLowerCase().includes(warehouse.toLowerCase())
         );
       }
 
       if (fromDate) {
-        result = result.filter(
-          m => new Date(m.date) >= new Date(fromDate)
-        );
+        result = result.filter(m => new Date(m.date) >= new Date(fromDate));
       }
-
       if (toDate) {
-        result = result.filter(
-          m => new Date(m.date) <= new Date(toDate)
-        );
+        result = result.filter(m => new Date(m.date) <= new Date(toDate));
       }
 
       return res.json(result);
     }
 
-    // ---------------------------------------------------
-    // REAL MODE — When ready, toggle USE_REAL_DATA = true
-    // ---------------------------------------------------
+    // --------------------------------------------------------------------
+    // 2. REAL MODE — LEDGER + STATUS FROM DOCUMENTS
+    // --------------------------------------------------------------------
 
     const query = {};
 
     if (documentType) query.document_type = documentType;
-    if (status) query.status = status;
 
-    // Date filter
     if (fromDate || toDate) {
       query.createdAt = {};
       if (fromDate) query.createdAt.$gte = new Date(fromDate);
@@ -83,46 +64,76 @@ export const getMoveHistory = async (req, res) => {
     }
 
     // Fetch ledger entries
-    let moves = await StockLedgerEntryModel.find(query)
+    let entries = await StockLedgerEntryModel.find(query)
       .populate("product_id")
       .populate("warehouse_id")
       .populate("location_id")
       .populate("created_by");
 
-    // Manual filter for text search fields
+    // Manual string search filters
     if (product) {
-      moves = moves.filter(m =>
-        m.product_id.name.toLowerCase().includes(product.toLowerCase())
+      entries = entries.filter(e =>
+        e.product_id.name.toLowerCase().includes(product.toLowerCase())
       );
     }
 
     if (warehouse) {
-      moves = moves.filter(m =>
-        m.warehouse_id.name.toLowerCase().includes(warehouse.toLowerCase())
+      entries = entries.filter(e =>
+        e.warehouse_id.name.toLowerCase().includes(warehouse.toLowerCase())
       );
     }
 
-    // Map to dummy-like format
-    result = moves.map(m => ({
-      ledger_id: m._id,
-      date: m.createdAt,
-      documentType: m.document_type,
-      status: m.status,
-      product: {
-        id: m.product_id._id,
-        name: m.product_id.name,
-        sku: m.product_id.sku,
-        category: m.product_id.category_id
-      },
-      warehouse: m.warehouse_id?.name,
-      location: m.location_id?.name,
-      movement: m.movement_type,
-      quantity: m.quantity,
-      created_by: m.created_by?.name,
-      notes: m.note
-    }));
+    // --------------------------------------------------------------------
+    // 3. ATTACH DOCUMENT STATUS BASED ON TYPE
+    // --------------------------------------------------------------------
+    const result = await Promise.all(
+      entries.map(async (e) => {
+        let docStatus = "DONE"; // default for safety
 
-    return res.json(result);
+        if (e.document_type === "RECEIPT") {
+          const doc = await ReceiptModel.findById(e.document_id);
+          if (doc) docStatus = doc.status;
+        }
+
+        if (e.document_type === "DELIVERY") {
+          const doc = await DeliveryOrderModel.findById(e.document_id);
+          if (doc) docStatus = doc.status;
+        }
+
+        if (e.document_type === "INTERNAL_TRANSFER") {
+          const doc = await InternalTransferModel.findById(e.document_id);
+          if (doc) docStatus = doc.status;
+        }
+
+        if (e.document_type === "ADJUSTMENT") {
+          const doc = await StockAdjustmentModel.findById(e.document_id);
+          if (doc) docStatus = doc.status;
+        }
+
+        // Apply status filter
+        if (status && status !== docStatus) return null;
+
+        return {
+          ledger_id: e._id,
+          date: e.createdAt,
+          documentType: e.document_type,
+          status: docStatus,
+          product: {
+            id: e.product_id._id,
+            name: e.product_id.name,
+            sku: e.product_id.sku
+          },
+          warehouse: e.warehouse_id?.name,
+          location: e.location_id?.name,
+          movement: e.movement_type,
+          quantity: e.quantity,
+          created_by: e.created_by?.name,
+          notes: e.note
+        };
+      })
+    );
+
+    return res.json(result.filter(Boolean)); // remove nulls from status filter
 
   } catch (err) {
     console.error("MOVE HISTORY ERROR:", err);
