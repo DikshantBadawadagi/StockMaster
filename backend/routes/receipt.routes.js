@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const {createReceipt, addReceiptItem, validateReceipt, getReceiptDetails, getAllReceipts} = require('../controllers/receipt.controller.js');
-const { protect } = require('../middleware/auth');
+import { createReceipt, addReceiptItem, validateReceipt, getReceiptDetails, getAllReceipts } from '../controllers/receipt.controller.js';
+import { protect } from '../middleware/auth.js';
 
 /**
  * Receipt Routes
@@ -23,4 +23,4 @@ router.get('/:receipt_id', protect, getReceiptDetails);
 // Get all receipts with pagination
 router.get('/', protect, getAllReceipts);
 
-module.exports = router;
+export default router;

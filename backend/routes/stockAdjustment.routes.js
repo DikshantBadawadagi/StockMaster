@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const stockAdjustmentController = require('../controllers/stockAdjustment.controller');
-const {protect} = require('../middleware/auth');
+import { createStockAdjustment, addAdjustmentItem, validateStockAdjustment, getAdjustmentDetails, getAllStockAdjustments, getAdjustmentSummary } from '../controllers/stockAdjustment.controller.js';
+import { protect } from '../middleware/auth.js';
 
 /**
  * Stock Adjustment Routes
@@ -9,21 +9,21 @@ const {protect} = require('../middleware/auth');
  */
 
 // Create a new stock adjustment (DRAFT status)
-router.post('/create', protect, stockAdjustmentController.createStockAdjustment);
+router.post('/create', protect, createStockAdjustment);
 
 // Add item to stock adjustment
-router.post('/add-item', protect, stockAdjustmentController.addAdjustmentItem);
+router.post('/add-item', protect, addAdjustmentItem);
 
 // Validate stock adjustment (update stock)
-router.post('/validate', protect, stockAdjustmentController.validateStockAdjustment);
+router.post('/validate', protect, validateStockAdjustment);
 
 // Get stock adjustment details with items
-router.get('/:stock_adjustment_id', protect, stockAdjustmentController.getAdjustmentDetails);
+router.get('/:stock_adjustment_id', protect, getAdjustmentDetails);
 
 // Get all stock adjustments with pagination
-router.get('/', protect, stockAdjustmentController.getAllStockAdjustments);
+router.get('/', protect, getAllStockAdjustments);
 
 // Get adjustment summary
-router.get('/summary/overview', protect, stockAdjustmentController.getAdjustmentSummary);
+router.get('/summary/overview', protect, getAdjustmentSummary);
 
-module.exports = router;
+export default router;

@@ -1,15 +1,15 @@
-const InternalTransfer = require('../models/InternalTransfer.model');
-const InternalTransferItem = require('../models/InternalTransferItem.model');
-const Product = require('../models/Product.model');
-const Location = require('../models/Location.model');
-const Warehouse = require('../models/Warehouse.model');
-const { DocumentStatus } = require('../models/DocumentStatus');
-const stockLedgerService = require('../services/stockLedger.service');
+import InternalTransfer from '../models/InternalTransfer.model.js';
+import InternalTransferItem from '../models/InternalTransferItem.model.js';
+import Product from '../models/Product.model.js';
+import Location from '../models/Location.model.js';
+import Warehouse from '../models/Warehouse.model.js';
+import { DocumentStatus } from '../models/DocumentStatus.js';
+import stockLedgerService from '../services/stockLedger.service.js';
 
 /**
  * Create a new internal transfer (DRAFT status)
  */
-exports.createInternalTransfer = async (req, res) => {
+export const createInternalTransfer = async (req, res) => {
   try {
     const { document_number, source_warehouse_id, destination_warehouse_id, remarks } = req.body;
 
@@ -82,7 +82,7 @@ exports.createInternalTransfer = async (req, res) => {
 /**
  * Add items to an internal transfer
  */
-exports.addTransferItem = async (req, res) => {
+export const addTransferItem = async (req, res) => {
   try {
     const {
       internal_transfer_id,
@@ -232,7 +232,7 @@ exports.addTransferItem = async (req, res) => {
 /**
  * Validate internal transfer and create dual ledger entries
  */
-exports.validateInternalTransfer = async (req, res) => {
+export const validateInternalTransfer = async (req, res) => {
   try {
     const { internal_transfer_id } = req.body;
 
@@ -348,7 +348,7 @@ exports.validateInternalTransfer = async (req, res) => {
 /**
  * Get internal transfer details with items
  */
-exports.getTransferDetails = async (req, res) => {
+export const getTransferDetails = async (req, res) => {
   try {
     const { internal_transfer_id } = req.params;
 
@@ -388,7 +388,7 @@ exports.getTransferDetails = async (req, res) => {
 /**
  * Get all internal transfers with pagination
  */
-exports.getAllInternalTransfers = async (req, res) => {
+export const getAllInternalTransfers = async (req, res) => {
   try {
     const { page = 1, limit = 10, status } = req.query;
     const skip = (page - 1) * limit;

@@ -1,15 +1,15 @@
-const StockAdjustment = require('../models/StockAdjustment.model');
-const StockAdjustmentItem = require('../models/StockAdjustmentItem.model');
-const Product = require('../models/Product.model');
-const Location = require('../models/Location.model');
-const Warehouse = require('../models/Warehouse.model');
-const { DocumentStatus } = require('../models/DocumentStatus');
-const stockLedgerService = require('../services/stockLedger.service');
+import StockAdjustment from '../models/StockAdjustment.model.js';
+import StockAdjustmentItem from '../models/StockAdjustmentItem.model.js';
+import Product from '../models/Product.model.js';
+import Location from '../models/Location.model.js';
+import Warehouse from '../models/Warehouse.model.js';
+import { DocumentStatus } from '../models/DocumentStatus.js';
+import stockLedgerService from '../services/stockLedger.service.js';
 
 /**
  * Create a new stock adjustment (DRAFT status)
  */
-exports.createStockAdjustment = async (req, res) => {
+export const createStockAdjustment = async (req, res) => {
   try {
     const { document_number, warehouse_id, reason, adjustment_date, remarks } = req.body;
 
@@ -76,7 +76,7 @@ exports.createStockAdjustment = async (req, res) => {
 /**
  * Add items to a stock adjustment
  */
-exports.addAdjustmentItem = async (req, res) => {
+export const addAdjustmentItem = async (req, res) => {
   try {
     const { stock_adjustment_id, product_id, location_id, quantity_change, remarks } = req.body;
 
@@ -193,7 +193,7 @@ exports.addAdjustmentItem = async (req, res) => {
 /**
  * Validate stock adjustment and update stock
  */
-exports.validateStockAdjustment = async (req, res) => {
+export const validateStockAdjustment = async (req, res) => {
   try {
     const { stock_adjustment_id } = req.body;
 
@@ -292,7 +292,7 @@ exports.validateStockAdjustment = async (req, res) => {
 /**
  * Get stock adjustment details with items
  */
-exports.getAdjustmentDetails = async (req, res) => {
+export const getAdjustmentDetails = async (req, res) => {
   try {
     const { stock_adjustment_id } = req.params;
 
@@ -332,7 +332,7 @@ exports.getAdjustmentDetails = async (req, res) => {
 /**
  * Get all stock adjustments with pagination
  */
-exports.getAllStockAdjustments = async (req, res) => {
+export const getAllStockAdjustments = async (req, res) => {
   try {
     const { page = 1, limit = 10, status, reason } = req.query;
     const skip = (page - 1) * limit;
@@ -375,7 +375,7 @@ exports.getAllStockAdjustments = async (req, res) => {
 /**
  * Get adjustment summary
  */
-exports.getAdjustmentSummary = async (req, res) => {
+export const getAdjustmentSummary = async (req, res) => {
   try {
     const { warehouse_id, reason, status } = req.query;
 

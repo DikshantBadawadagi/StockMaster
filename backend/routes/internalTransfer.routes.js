@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const internalTransferController = require('../controllers/internalTransfer.controller');
-const {protect} = require('../middleware/auth');
+import { createInternalTransfer, addTransferItem, validateInternalTransfer, getTransferDetails, getAllInternalTransfers } from '../controllers/internalTransfer.controller.js';
+import { protect } from '../middleware/auth.js';
 
 /**
  * Internal Transfer Routes
@@ -9,18 +9,18 @@ const {protect} = require('../middleware/auth');
  */
 
 // Create a new internal transfer (DRAFT status)
-router.post('/create', protect, internalTransferController.createInternalTransfer);
+router.post('/create', protect, createInternalTransfer);
 
 // Add item to internal transfer
-router.post('/add-item', protect, internalTransferController.addTransferItem);
+router.post('/add-item', protect, addTransferItem);
 
 // Validate internal transfer (create dual ledger entries)
-router.post('/validate', protect, internalTransferController.validateInternalTransfer);
+router.post('/validate', protect, validateInternalTransfer);
 
 // Get internal transfer details with items
-router.get('/:internal_transfer_id', protect, internalTransferController.getTransferDetails);
+router.get('/:internal_transfer_id', protect, getTransferDetails);
 
 // Get all internal transfers with pagination
-router.get('/', protect, internalTransferController.getAllInternalTransfers);
+router.get('/', protect, getAllInternalTransfers);
 
-module.exports = router;
+export default router;

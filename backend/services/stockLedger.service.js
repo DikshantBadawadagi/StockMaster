@@ -1,11 +1,11 @@
-const StockLedgerEntry = require('../models/StockLedgerEntry.model');
-const InventoryBalance = require('../models/InventoryBalance.model');
+import StockLedgerEntry from '../models/StockLedgerEntry.model.js';
+import InventoryBalance from '../models/InventoryBalance.model.js';
 
 /**
  * Stock Ledger Engine - Single source of truth for all stock movements
  */
 
-exports.createLedgerEntry = async (ledgerData) => {
+export const createLedgerEntry = async (ledgerData) => {
   try {
     const {
       product_id,
@@ -105,7 +105,7 @@ const updateInventoryBalance = async (
 /**
  * Get current stock balance for a product at a location
  */
-exports.getStockBalance = async (product_id, warehouse_id, location_id) => {
+export const getStockBalance = async (product_id, warehouse_id, location_id) => {
   try {
     const balance = await InventoryBalance.findOne({
       product_id,
@@ -122,7 +122,7 @@ exports.getStockBalance = async (product_id, warehouse_id, location_id) => {
 /**
  * Get ledger history for tracking
  */
-exports.getLedgerHistory = async (product_id, location_id, limit = 50) => {
+export const getLedgerHistory = async (product_id, location_id, limit = 50) => {
   try {
     return await StockLedgerEntry.find({
       product_id,
@@ -136,3 +136,6 @@ exports.getLedgerHistory = async (product_id, location_id, limit = 50) => {
     throw new Error(`Get ledger history failed: ${error.message}`);
   }
 };
+
+// Default export for compatibility with existing imports
+export default { createLedgerEntry, getStockBalance, getLedgerHistory };

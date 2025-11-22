@@ -1,15 +1,15 @@
-const DeliveryOrder = require('../models/DeliveryOrder.model');
-const DeliveryItem = require('../models/DeliveryItem.model');
-const Product = require('../models/Product.model');
-const Location = require('../models/Location.model');
-const InventoryBalance = require('../models/InventoryBalance.model');
-const { DocumentStatus } = require('../models/DocumentStatus');
-const stockLedgerService = require('../services/stockLedger.service');
+import DeliveryOrder from '../models/DeliveryOrder.model.js';
+import DeliveryItem from '../models/DeliveryItem.model.js';
+import Product from '../models/Product.model.js';
+import Location from '../models/Location.model.js';
+import InventoryBalance from '../models/InventoryBalance.model.js';
+import { DocumentStatus } from '../models/DocumentStatus.js';
+import stockLedgerService from '../services/stockLedger.service.js';
 
 /**
  * Create a new delivery order (DRAFT status)
  */
-exports.createDeliveryOrder = async (req, res) => {
+export const createDeliveryOrder = async (req, res) => {
   try {
     const { document_number, customer_id, warehouse_id, expected_ship_date, remarks } = req.body;
 
@@ -58,7 +58,7 @@ exports.createDeliveryOrder = async (req, res) => {
 /**
  * Add items to a delivery order
  */
-exports.addDeliveryItem = async (req, res) => {
+export const addDeliveryItem = async (req, res) => {
   try {
     const { delivery_order_id, product_id, location_id, quantity_ordered, remarks } = req.body;
 
@@ -167,7 +167,7 @@ exports.addDeliveryItem = async (req, res) => {
 /**
  * Validate delivery order and reduce stock
  */
-exports.validateDeliveryOrder = async (req, res) => {
+export const validateDeliveryOrder = async (req, res) => {
   try {
     const { delivery_order_id } = req.body;
 
@@ -269,7 +269,7 @@ exports.validateDeliveryOrder = async (req, res) => {
 /**
  * Get delivery order details with items
  */
-exports.getDeliveryOrderDetails = async (req, res) => {
+export const getDeliveryOrderDetails = async (req, res) => {
   try {
     const { delivery_order_id } = req.params;
 
@@ -308,7 +308,7 @@ exports.getDeliveryOrderDetails = async (req, res) => {
 /**
  * Get all delivery orders with pagination
  */
-exports.getAllDeliveryOrders = async (req, res) => {
+export const getAllDeliveryOrders = async (req, res) => {
   try {
     const { page = 1, limit = 10, status } = req.query;
     const skip = (page - 1) * limit;

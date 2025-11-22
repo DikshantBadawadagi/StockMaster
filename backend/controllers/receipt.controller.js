@@ -1,16 +1,17 @@
-const Receipt = require('../models/Receipt.model.js');
-const ReceiptItem = require('../models/ReceiptItem.model.js');
-const Product = require('../models/Product.model.js');
-const Location = require('../models/Location.model.js');
-const { DocumentStatus } = require('../models/DocumentStatus.js');
-const stockLedgerService = require('../services/stockLedger.service.js');
+import Receipt from '../models/Receipt.model.js';
+import ReceiptItem from '../models/ReceiptItem.model.js';
+import Product from '../models/Product.model.js';
+import Location from '../models/Location.model.js';
+import { DocumentStatus } from '../models/DocumentStatus.js';
+import stockLedgerService from '../services/stockLedger.service.js';
 
 /**
  * Create a new receipt (DRAFT status)
  */
-exports.createReceipt = async (req, res) => {
+export const createReceipt = async (req, res) => {
   try {
     const { document_number, supplier_id, warehouse_id, expected_date, remarks } = req.body;
+    console.log("Received data:", req);
 
     // Validation
     if (!document_number || !supplier_id || !warehouse_id) {
@@ -57,7 +58,7 @@ exports.createReceipt = async (req, res) => {
 /**
  * Add items to a receipt
  */
-exports.addReceiptItem = async (req, res) => {
+export const addReceiptItem = async (req, res) => {
   try {
     const { receipt_id, product_id, location_id, quantity_ordered, remarks } = req.body;
 
@@ -152,7 +153,7 @@ exports.addReceiptItem = async (req, res) => {
 /**
  * Validate receipt and add to stock
  */
-exports.validateReceipt = async (req, res) => {
+export const validateReceipt = async (req, res) => {
   try {
     const { receipt_id } = req.body;
 
@@ -238,7 +239,7 @@ exports.validateReceipt = async (req, res) => {
 /**
  * Get receipt details with items
  */
-exports.getReceiptDetails = async (req, res) => {
+export const getReceiptDetails = async (req, res) => {
   try {
     const { receipt_id } = req.params;
 
@@ -277,7 +278,7 @@ exports.getReceiptDetails = async (req, res) => {
 /**
  * Get all receipts with pagination
  */
-exports.getAllReceipts = async (req, res) => {
+export const getAllReceipts = async (req, res) => {
   try {
     const { page = 1, limit = 10, status } = req.query;
     const skip = (page - 1) * limit;
