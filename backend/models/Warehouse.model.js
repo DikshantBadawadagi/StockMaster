@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const warehouseSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -6,4 +6,4 @@ const warehouseSchema = new mongoose.Schema({
   address: { type: String },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Warehouse', warehouseSchema);
+export default mongoose.model('Warehouse', warehouseSchema);

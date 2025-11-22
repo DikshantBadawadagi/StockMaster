@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const reorderRuleSchema = new mongoose.Schema({
   product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -9,4 +9,4 @@ const reorderRuleSchema = new mongoose.Schema({
   max_quantity: { type: Number },
 }, { timestamps: true });
 
-module.exports = mongoose.model('ProductReorderRule', reorderRuleSchema);
+export default mongoose.model('ProductReorderRule', reorderRuleSchema);

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const stockLedgerSchema = new mongoose.Schema({
   product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -27,4 +27,4 @@ const stockLedgerSchema = new mongoose.Schema({
   note: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model('StockLedgerEntry', stockLedgerSchema);
+export default mongoose.model('StockLedgerEntry', stockLedgerSchema);

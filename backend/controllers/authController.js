@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
-const sendEmail = require('../config/email');
+import User from '../models/User.js';
+import generateToken from '../utils/generateToken.js';
+import sendEmail from '../config/email.js';
 
 // @desc    Register a new user
 // @route   POST /api/auth/signup
@@ -476,7 +476,7 @@ const changePassword = async (req, res) => {
     }
 };
 
-module.exports = {
+export default {
     signup,
     verifyEmail,
     resendOTP,

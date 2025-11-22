@@ -1,12 +1,9 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
-const authRoutes = require('./routes/auth');
-
-// Load environment variables
-dotenv.config();
+import express from 'express';
+import 'dotenv/config';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import errorHandler from './middleware/errorHandler.js';
+import authRoutes from './routes/auth.js';
 
 // Connect to database
 connectDB();

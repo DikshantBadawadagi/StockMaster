@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const deliveryOrderSchema = new mongoose.Schema({
   document_number: { type: String, unique: true, required: true },
@@ -18,4 +18,4 @@ const deliveryOrderSchema = new mongoose.Schema({
   remarks: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model('DeliveryOrder', deliveryOrderSchema);
+export default mongoose.model('DeliveryOrder', deliveryOrderSchema);

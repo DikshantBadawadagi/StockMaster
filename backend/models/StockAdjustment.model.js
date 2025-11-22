@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const adjustmentSchema = new mongoose.Schema({
   document_number: { type: String, unique: true, required: true },
@@ -21,4 +21,4 @@ const adjustmentSchema = new mongoose.Schema({
   remarks: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model('StockAdjustment', adjustmentSchema);
+export default mongoose.model('StockAdjustment', adjustmentSchema);

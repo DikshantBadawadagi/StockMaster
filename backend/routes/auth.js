@@ -1,17 +1,7 @@
-const express = require('express');
-const {
-    signup,
-    verifyEmail,
-    resendOTP,
-    login,
-    forgotPassword,
-    resetPassword,
-    getMe,
-    updateProfile,
-    changePassword,
-} = require('../controllers/authController');
-const { protect } = require('../middleware/auth');
-const {
+import express from 'express';
+import authController from '../controllers/authController.js';
+import { protect } from '../middleware/auth.js';
+import {
     validate,
     signupValidation,
     loginValidation,
@@ -19,7 +9,9 @@ const {
     emailValidation,
     resetPasswordValidation,
     changePasswordValidation,
-} = require('../middleware/validator');
+} from '../middleware/validator.js';
+
+const { signup, verifyEmail, resendOTP, login, forgotPassword, resetPassword, getMe, updateProfile, changePassword } = authController;
 
 const router = express.Router();
 
@@ -36,4 +28,4 @@ router.get('/me', protect, getMe);
 router.put('/update-profile', protect, updateProfile);
 router.put('/change-password', protect, changePasswordValidation, validate, changePassword);
 
-module.exports = router;
+export default router;
