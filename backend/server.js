@@ -7,6 +7,8 @@ import authRoutes from './routes/auth.js';
 import warehouseRoutes from './routes/warehouses.js';
 import productRoutes from './routes/products.js';
 import stockRoutes from './routes/stock.js';
+import dashboardroutes from './routes/dashboard.routes.js';
+import movesRoutes from './routes/moves.routes.js';
 // Load environment variables
 dotenv.config();
 
@@ -34,7 +36,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/stock', stockRoutes);
-
+app.use('/api/dashboard', dashboardroutes);
+app.use('/api/moves', movesRoutes);
 // Error handler middleware (should be last)
 app.use(errorHandler);
 
