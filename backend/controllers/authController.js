@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
-const sendEmail = require('../config/email');
+import User from '../models/User.js';
+import generateToken from '../utils/generateToken.js';
+import sendEmail from '../config/email.js';
 
 // @desc    Register a new user
 // @route   POST /api/auth/signup
@@ -109,11 +109,18 @@ const verifyEmail = async (req, res) => {
         // Generate token
         const token = generateToken(user._id);
 
+        // Set HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        });
+
         res.status(200).json({
             success: true,
             message: 'Email verified successfully',
             data: {
-                token,
                 user: {
                     _id: user._id,
                     name: user.name,
@@ -246,11 +253,18 @@ const login = async (req, res) => {
         // Generate token
         const token = generateToken(user._id);
 
+        // Set HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        });
+
         res.status(200).json({
             success: true,
             message: 'Login successful',
             data: {
-                token,
                 user: {
                     _id: user._id,
                     name: user.name,
@@ -476,7 +490,32 @@ const changePassword = async (req, res) => {
     }
 };
 
-module.exports = {
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Private
+const logout = async (req, res) => {
+    try {
+        // Clear the token cookie
+        res.cookie('token', '', {
+            httpOnly: true,
+            expires: new Date(0),
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'Logged out successfully',
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during logout',
+            error: error.message,
+        });
+    }
+};
+
+export {
     signup,
     verifyEmail,
     resendOTP,
@@ -486,4 +525,5 @@ module.exports = {
     getMe,
     updateProfile,
     changePassword,
+    logout,
 };

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const inventoryBalanceSchema = new mongoose.Schema({
   product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
@@ -10,4 +10,4 @@ const inventoryBalanceSchema = new mongoose.Schema({
 
 inventoryBalanceSchema.index({ product_id: 1, location_id: 1 }, { unique: true });
 
-module.exports = mongoose.model('InventoryBalance', inventoryBalanceSchema);
+export default mongoose.model('InventoryBalance', inventoryBalanceSchema);

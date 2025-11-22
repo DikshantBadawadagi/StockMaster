@@ -1,15 +1,19 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
-const authRoutes = require('./routes/auth');
-const receiptRoutes = require('./routes/receipt.routes');
-const deliveryRoutes = require('./routes/delivery.routes');
-const internalTransferRoutes = require('./routes/internalTransfer.routes');
-const stockAdjustmentRoutes = require('./routes/stockAdjustment.routes');
-
-
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import errorHandler from './middleware/errorHandler.js';
+import authRoutes from './routes/auth.js';
+import warehouseRoutes from './routes/warehouses.js';
+import productRoutes from './routes/products.js';
+import stockRoutes from './routes/stock.js';
+import dashboardroutes from './routes/dashboard.routes.js';
+import movesRoutes from './routes/moves.routes.js';
+import cookieParser from 'cookie-parser';
+import receiptRoutes from './routes/receipt.routes.js';
+import deliveryRoutes from './routes/delivery.routes.js';
+import internalTransferRoutes from './routes/internalTransfer.routes.js';
+import stockAdjustmentRoutes from './routes/stockAdjustment.routes.js';
 // Load environment variables
 dotenv.config();
 
@@ -20,9 +24,12 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    credentials: true, // Allow cookies to be sent
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Routes
 app.get('/', (req, res) => {
@@ -34,6 +41,11 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/warehouses', warehouseRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/stock', stockRoutes);
+app.use('/api/dashboard', dashboardroutes);
+app.use('/api/moves', movesRoutes);
 app.use('/api/receipts',receiptRoutes);
 app.use('/api/delivery-orders', deliveryRoutes);
 app.use('/api/internal-transfers', internalTransferRoutes);

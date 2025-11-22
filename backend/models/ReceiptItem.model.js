@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const receiptItemSchema = new mongoose.Schema({
   receipt_id: { 
@@ -29,4 +29,4 @@ const receiptItemSchema = new mongoose.Schema({
 
 receiptItemSchema.index({ receipt_id: 1, product_id: 1 });
 
-module.exports = mongoose.model('ReceiptItem', receiptItemSchema);
+export default mongoose.model('ReceiptItem', receiptItemSchema);

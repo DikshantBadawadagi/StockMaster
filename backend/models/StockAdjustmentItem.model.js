@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const stockAdjustmentItemSchema = new mongoose.Schema({
   stock_adjustment_id: { 
@@ -25,4 +25,4 @@ const stockAdjustmentItemSchema = new mongoose.Schema({
 
 stockAdjustmentItemSchema.index({ stock_adjustment_id: 1, product_id: 1 });
 
-module.exports = mongoose.model('StockAdjustmentItem', stockAdjustmentItemSchema);
+export default mongoose.model('StockAdjustmentItem', stockAdjustmentItemSchema);

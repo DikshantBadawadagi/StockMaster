@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+import nodemailer from 'nodemailer';
+import 'dotenv/config';
 
 // Check if email is enabled
 const isEmailEnabled = process.env.ENABLE_EMAIL !== 'false';
@@ -48,4 +48,4 @@ const sendEmail = async (options) => {
     return { success: true, messageId: info.messageId };
 };
 
-module.exports = sendEmail;
+export default sendEmail;

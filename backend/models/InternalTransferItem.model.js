@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const internalTransferItemSchema = new mongoose.Schema({
   internal_transfer_id: { 
@@ -34,4 +34,4 @@ const internalTransferItemSchema = new mongoose.Schema({
 
 internalTransferItemSchema.index({ internal_transfer_id: 1, product_id: 1 });
 
-module.exports = mongoose.model('InternalTransferItem', internalTransferItemSchema);
+export default mongoose.model('InternalTransferItem', internalTransferItemSchema);

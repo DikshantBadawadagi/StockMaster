@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const productCategorySchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -6,4 +6,4 @@ const productCategorySchema = new mongoose.Schema({
   parent_category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'ProductCategory', default: null },
 }, { timestamps: true });
 
-module.exports = mongoose.model('ProductCategory', productCategorySchema);
+export default mongoose.model('ProductCategory', productCategorySchema);
