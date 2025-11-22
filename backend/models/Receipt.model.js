@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const receiptSchema = new mongoose.Schema({
   document_number: { type: String, unique: true, required: true },
@@ -18,4 +18,4 @@ const receiptSchema = new mongoose.Schema({
   remarks: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model('Receipt', receiptSchema);
+export default mongoose.model('Receipt', receiptSchema);

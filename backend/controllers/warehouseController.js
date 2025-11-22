@@ -1,10 +1,10 @@
-const Warehouse = require('../models/Warehouse.model');
-const Location = require('../models/Location.model');
+import Warehouse from '../models/Warehouse.model.js';
+import Location from '../models/Location.model.js';
 
 // @desc    Create new warehouse
 // @route   POST /api/warehouses
 // @access  Private
-exports.createWarehouse = async (req, res, next) => {
+export const createWarehouse = async (req, res, next) => {
     try {
         const { name, code, address } = req.body;
 
@@ -35,7 +35,7 @@ exports.createWarehouse = async (req, res, next) => {
 // @desc    Get all warehouses
 // @route   GET /api/warehouses
 // @access  Private
-exports.getWarehouses = async (req, res, next) => {
+export const getWarehouses = async (req, res, next) => {
     try {
         const warehouses = await Warehouse.find().sort({ createdAt: -1 });
 
@@ -52,7 +52,7 @@ exports.getWarehouses = async (req, res, next) => {
 // @desc    Get single warehouse by ID
 // @route   GET /api/warehouses/:id
 // @access  Private
-exports.getWarehouse = async (req, res, next) => {
+export const getWarehouse = async (req, res, next) => {
     try {
         const warehouse = await Warehouse.findById(req.params.id);
 
@@ -75,7 +75,7 @@ exports.getWarehouse = async (req, res, next) => {
 // @desc    Update warehouse
 // @route   PUT /api/warehouses/:id
 // @access  Private
-exports.updateWarehouse = async (req, res, next) => {
+export const updateWarehouse = async (req, res, next) => {
     try {
         const { name, code, address } = req.body;
 
@@ -117,7 +117,7 @@ exports.updateWarehouse = async (req, res, next) => {
 // @desc    Delete warehouse
 // @route   DELETE /api/warehouses/:id
 // @access  Private
-exports.deleteWarehouse = async (req, res, next) => {
+export const deleteWarehouse = async (req, res, next) => {
     try {
         const warehouse = await Warehouse.findById(req.params.id);
 
@@ -151,7 +151,7 @@ exports.deleteWarehouse = async (req, res, next) => {
 // @desc    Create location (rack/shelf/bin) in warehouse
 // @route   POST /api/warehouses/:warehouseId/locations
 // @access  Private
-exports.createLocation = async (req, res, next) => {
+export const createLocation = async (req, res, next) => {
     try {
         const { name, code, parent_location_id } = req.body;
         const warehouse_id = req.params.warehouseId;
@@ -214,7 +214,7 @@ exports.createLocation = async (req, res, next) => {
 // @desc    Get all locations for a warehouse
 // @route   GET /api/warehouses/:warehouseId/locations
 // @access  Private
-exports.getWarehouseLocations = async (req, res, next) => {
+export const getWarehouseLocations = async (req, res, next) => {
     try {
         const warehouse_id = req.params.warehouseId;
 
@@ -244,7 +244,7 @@ exports.getWarehouseLocations = async (req, res, next) => {
 // @desc    Get location hierarchy (tree structure)
 // @route   GET /api/warehouses/:warehouseId/locations/hierarchy
 // @access  Private
-exports.getLocationHierarchy = async (req, res, next) => {
+export const getLocationHierarchy = async (req, res, next) => {
     try {
         const warehouse_id = req.params.warehouseId;
 
@@ -301,7 +301,7 @@ exports.getLocationHierarchy = async (req, res, next) => {
 // @desc    Get single location by ID
 // @route   GET /api/warehouses/:warehouseId/locations/:locationId
 // @access  Private
-exports.getLocation = async (req, res, next) => {
+export const getLocation = async (req, res, next) => {
     try {
         const { warehouseId, locationId } = req.params;
 
@@ -331,7 +331,7 @@ exports.getLocation = async (req, res, next) => {
 // @desc    Update location
 // @route   PUT /api/warehouses/:warehouseId/locations/:locationId
 // @access  Private
-exports.updateLocation = async (req, res, next) => {
+export const updateLocation = async (req, res, next) => {
     try {
         const { warehouseId, locationId } = req.params;
         const { name, code, parent_location_id, is_active } = req.body;
@@ -403,7 +403,7 @@ exports.updateLocation = async (req, res, next) => {
 // @desc    Delete location
 // @route   DELETE /api/warehouses/:warehouseId/locations/:locationId
 // @access  Private
-exports.deleteLocation = async (req, res, next) => {
+export const deleteLocation = async (req, res, next) => {
     try {
         const { warehouseId, locationId } = req.params;
 

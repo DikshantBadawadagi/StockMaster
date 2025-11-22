@@ -1,19 +1,19 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const {
-    createWarehouse,
-    getWarehouses,
-    getWarehouse,
-    updateWarehouse,
-    deleteWarehouse,
-    createLocation,
-    getWarehouseLocations,
-    getLocationHierarchy,
-    getLocation,
-    updateLocation,
-    deleteLocation
-} = require('../controllers/warehouseController');
-const { protect } = require('../middleware/auth');
+import {
+	createWarehouse,
+	getWarehouses,
+	getWarehouse,
+	updateWarehouse,
+	deleteWarehouse,
+	createLocation,
+	getWarehouseLocations,
+	getLocationHierarchy,
+	getLocation,
+	updateLocation,
+	deleteLocation,
+} from '../controllers/warehouseController.js';
+import { protect } from '../middleware/auth.js';
 
 // Warehouse routes
 router.post('/', protect, createWarehouse);
@@ -30,4 +30,4 @@ router.get('/:warehouseId/locations/:locationId', protect, getLocation);
 router.put('/:warehouseId/locations/:locationId', protect, updateLocation);
 router.delete('/:warehouseId/locations/:locationId', protect, deleteLocation);
 
-module.exports = router;
+export default router;

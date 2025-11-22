@@ -1,14 +1,14 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const {
-    getStockOverview,
-    getStockByWarehouse,
-    getStockByProduct,
-    getStockByLocation,
-    getProductAvailability,
-    getWarehouseStockSummary
-} = require('../controllers/stockController');
-const { protect } = require('../middleware/auth');
+import {
+	getStockOverview,
+	getStockByWarehouse,
+	getStockByProduct,
+	getStockByLocation,
+	getProductAvailability,
+	getWarehouseStockSummary,
+} from '../controllers/stockController.js';
+import { protect } from '../middleware/auth.js';
 
 // Stock view routes (all read-only)
 router.get('/overview', protect, getStockOverview);
@@ -18,4 +18,4 @@ router.get('/by-location/:locationId', protect, getStockByLocation);
 router.get('/availability', protect, getProductAvailability);
 router.get('/warehouse/:warehouseId/summary', protect, getWarehouseStockSummary);
 
-module.exports = router;
+export default router;

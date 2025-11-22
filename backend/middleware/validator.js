@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+import { body, validationResult } from 'express-validator';
 
 // Validation middleware
 const validate = (req, res, next) => {
@@ -113,7 +113,7 @@ const changePasswordValidation = [
         .withMessage('New password must be at least 6 characters long'),
 ];
 
-module.exports = {
+export {
     validate,
     signupValidation,
     loginValidation,

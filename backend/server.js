@@ -1,14 +1,15 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
-const authRoutes = require('./routes/auth');
-const warehouseRoutes = require('./routes/warehouses');
-const productRoutes = require('./routes/products');
-const stockRoutes = require('./routes/stock');
-
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import errorHandler from './middleware/errorHandler.js';
+import authRoutes from './routes/auth.js';
+import warehouseRoutes from './routes/warehouses.js';
+import productRoutes from './routes/products.js';
+import stockRoutes from './routes/stock.js';
+import dashboardroutes from './routes/dashboard.routes.js';
+import movesRoutes from './routes/moves.routes.js';
+import cookieParser from 'cookie-parser';
 // Load environment variables
 dotenv.config();
 
@@ -39,7 +40,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/stock', stockRoutes);
-
+app.use('/api/dashboard', dashboardroutes);
+app.use('/api/moves', movesRoutes);
 // Error handler middleware (should be last)
 app.use(errorHandler);
 

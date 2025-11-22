@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
@@ -57,4 +57,4 @@ const productSchema = new mongoose.Schema({
   notes: { type: String, trim: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Product', productSchema);
+export default mongoose.model('Product', productSchema);

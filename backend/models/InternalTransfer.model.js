@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const transferSchema = new mongoose.Schema({
   document_number: { type: String, unique: true, required: true },
@@ -15,4 +15,4 @@ const transferSchema = new mongoose.Schema({
   remarks: String,
 }, { timestamps: true });
 
-module.exports = mongoose.model('InternalTransfer', transferSchema);
+export default mongoose.model('InternalTransfer', transferSchema);

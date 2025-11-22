@@ -1,22 +1,22 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const {
-    createCategory,
-    getCategories,
-    getCategoryHierarchy,
-    getCategory,
-    updateCategory,
-    deleteCategory,
-    createProduct,
-    getProducts,
-    getProduct,
-    searchProductBySKU,
-    updateProduct,
-    deleteProduct,
-    setInitialStock,
-    getProductStock
-} = require('../controllers/productController');
-const { protect } = require('../middleware/auth');
+import {
+	createCategory,
+	getCategories,
+	getCategoryHierarchy,
+	getCategory,
+	updateCategory,
+	deleteCategory,
+	createProduct,
+	getProducts,
+	getProduct,
+	searchProductBySKU,
+	updateProduct,
+	deleteProduct,
+	setInitialStock,
+	getProductStock,
+} from '../controllers/productController.js';
+import { protect } from '../middleware/auth.js';
 
 // Category routes
 router.post('/categories', protect, createCategory);
@@ -38,4 +38,4 @@ router.delete('/:id', protect, deleteProduct);
 router.post('/:productId/initial-stock', protect, setInitialStock);
 router.get('/:productId/stock', protect, getProductStock);
 
-module.exports = router;
+export default router;

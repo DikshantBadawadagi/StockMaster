@@ -1,15 +1,15 @@
-const Product = require('../models/Product.model');
-const ProductCategory = require('../models/ProductCategory.model');
-const InventoryBalance = require('../models/InventoryBalance.model');
-const Location = require('../models/Location.model');
-const Warehouse = require('../models/Warehouse.model');
+import Product from '../models/Product.model.js';
+import ProductCategory from '../models/ProductCategory.model.js';
+import InventoryBalance from '../models/InventoryBalance.model.js';
+import Location from '../models/Location.model.js';
+import Warehouse from '../models/Warehouse.model.js';
 
 // ========== PRODUCT CATEGORY OPERATIONS ==========
 
 // @desc    Create product category
 // @route   POST /api/products/categories
 // @access  Private
-exports.createCategory = async (req, res, next) => {
+export const createCategory = async (req, res, next) => {
     try {
         const { name, code, parent_category_id } = req.body;
 
@@ -56,7 +56,7 @@ exports.createCategory = async (req, res, next) => {
 // @desc    Get all product categories
 // @route   GET /api/products/categories
 // @access  Private
-exports.getCategories = async (req, res, next) => {
+export const getCategories = async (req, res, next) => {
     try {
         const categories = await ProductCategory.find()
             .populate('parent_category_id', 'name code')
@@ -75,7 +75,7 @@ exports.getCategories = async (req, res, next) => {
 // @desc    Get category hierarchy (tree structure)
 // @route   GET /api/products/categories/hierarchy
 // @access  Private
-exports.getCategoryHierarchy = async (req, res, next) => {
+export const getCategoryHierarchy = async (req, res, next) => {
     try {
         const categories = await ProductCategory.find();
 
@@ -111,7 +111,7 @@ exports.getCategoryHierarchy = async (req, res, next) => {
 // @desc    Get single category
 // @route   GET /api/products/categories/:id
 // @access  Private
-exports.getCategory = async (req, res, next) => {
+export const getCategory = async (req, res, next) => {
     try {
         const category = await ProductCategory.findById(req.params.id)
             .populate('parent_category_id', 'name code');
@@ -135,7 +135,7 @@ exports.getCategory = async (req, res, next) => {
 // @desc    Update category
 // @route   PUT /api/products/categories/:id
 // @access  Private
-exports.updateCategory = async (req, res, next) => {
+export const updateCategory = async (req, res, next) => {
     try {
         const { name, code, parent_category_id } = req.body;
 
@@ -195,7 +195,7 @@ exports.updateCategory = async (req, res, next) => {
 // @desc    Delete category
 // @route   DELETE /api/products/categories/:id
 // @access  Private
-exports.deleteCategory = async (req, res, next) => {
+export const deleteCategory = async (req, res, next) => {
     try {
         const category = await ProductCategory.findById(req.params.id);
 
@@ -242,7 +242,7 @@ exports.deleteCategory = async (req, res, next) => {
 // @desc    Create product
 // @route   POST /api/products
 // @access  Private
-exports.createProduct = async (req, res, next) => {
+export const createProduct = async (req, res, next) => {
     try {
         const { name, sku, code, category_id, uom, is_active } = req.body;
 
@@ -299,7 +299,7 @@ exports.createProduct = async (req, res, next) => {
 // @desc    Get all products with optional filters
 // @route   GET /api/products
 // @access  Private
-exports.getProducts = async (req, res, next) => {
+export const getProducts = async (req, res, next) => {
     try {
         const { search, category_id, is_active } = req.query;
 
@@ -342,7 +342,7 @@ exports.getProducts = async (req, res, next) => {
 // @desc    Get single product by ID
 // @route   GET /api/products/:id
 // @access  Private
-exports.getProduct = async (req, res, next) => {
+export const getProduct = async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id)
             .populate('category_id', 'name code');
@@ -366,7 +366,7 @@ exports.getProduct = async (req, res, next) => {
 // @desc    Search product by SKU
 // @route   GET /api/products/search/sku/:sku
 // @access  Private
-exports.searchProductBySKU = async (req, res, next) => {
+export const searchProductBySKU = async (req, res, next) => {
     try {
         const { sku } = req.params;
 
@@ -392,7 +392,7 @@ exports.searchProductBySKU = async (req, res, next) => {
 // @desc    Update product
 // @route   PUT /api/products/:id
 // @access  Private
-exports.updateProduct = async (req, res, next) => {
+export const updateProduct = async (req, res, next) => {
     try {
         const { name, sku, code, category_id, uom, is_active } = req.body;
 
@@ -456,7 +456,7 @@ exports.updateProduct = async (req, res, next) => {
 // @desc    Delete product
 // @route   DELETE /api/products/:id
 // @access  Private
-exports.deleteProduct = async (req, res, next) => {
+export const deleteProduct = async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id);
 
@@ -498,7 +498,7 @@ exports.deleteProduct = async (req, res, next) => {
 // @desc    Set initial stock for a product at a location
 // @route   POST /api/products/:productId/initial-stock
 // @access  Private
-exports.setInitialStock = async (req, res, next) => {
+export const setInitialStock = async (req, res, next) => {
     try {
         const { productId } = req.params;
         const { warehouse_id, location_id, quantity } = req.body;
@@ -572,7 +572,7 @@ exports.setInitialStock = async (req, res, next) => {
 // @desc    Get product stock across all locations
 // @route   GET /api/products/:productId/stock
 // @access  Private
-exports.getProductStock = async (req, res, next) => {
+export const getProductStock = async (req, res, next) => {
     try {
         const { productId } = req.params;
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const locationSchema = new mongoose.Schema({
   warehouse_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Warehouse', required: true },
@@ -54,4 +54,4 @@ const locationSchema = new mongoose.Schema({
 
 locationSchema.index({ warehouse_id: 1, code: 1 }, { unique: true });
 
-module.exports = mongoose.model('Location', locationSchema);
+export default mongoose.model('Location', locationSchema);

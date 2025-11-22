@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const warehouseSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
@@ -33,4 +33,4 @@ const warehouseSchema = new mongoose.Schema({
   notes: { type: String, trim: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Warehouse', warehouseSchema);
+export default mongoose.model('Warehouse', warehouseSchema);

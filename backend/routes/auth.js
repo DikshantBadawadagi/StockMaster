@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
     signup,
     verifyEmail,
     resendOTP,
@@ -10,9 +10,9 @@ const {
     updateProfile,
     changePassword,
     logout,
-} = require('../controllers/authController');
-const { protect } = require('../middleware/auth');
-const {
+} from '../controllers/authController.js';
+import { protect } from '../middleware/auth.js';
+import {
     validate,
     signupValidation,
     loginValidation,
@@ -20,7 +20,8 @@ const {
     emailValidation,
     resetPasswordValidation,
     changePasswordValidation,
-} = require('../middleware/validator');
+} from '../middleware/validator.js';
+
 
 const router = express.Router();
 
@@ -38,4 +39,4 @@ router.put('/update-profile', protect, updateProfile);
 router.put('/change-password', protect, changePasswordValidation, validate, changePassword);
 router.post('/logout', protect, logout);
 
-module.exports = router;
+export default router;

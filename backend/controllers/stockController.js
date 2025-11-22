@@ -1,12 +1,13 @@
-const InventoryBalance = require('../models/InventoryBalance.model');
-const Product = require('../models/Product.model');
-const Warehouse = require('../models/Warehouse.model');
-const Location = require('../models/Location.model');
+import mongoose from 'mongoose';
+import InventoryBalance from '../models/InventoryBalance.model.js';
+import Product from '../models/Product.model.js';
+import Warehouse from '../models/Warehouse.model.js';
+import Location from '../models/Location.model.js';
 
 // @desc    Get stock overview - all products with their quantities across locations
 // @route   GET /api/stock/overview
 // @access  Private
-exports.getStockOverview = async (req, res, next) => {
+export const getStockOverview = async (req, res, next) => {
     try {
         const { warehouse_id, product_id, has_stock } = req.query;
 
@@ -54,13 +55,13 @@ exports.getStockOverview = async (req, res, next) => {
 // @desc    Get stock by warehouse - grouped view
 // @route   GET /api/stock/by-warehouse
 // @access  Private
-exports.getStockByWarehouse = async (req, res, next) => {
+export const getStockByWarehouse = async (req, res, next) => {
     try {
         const { warehouse_id } = req.query;
 
         let matchQuery = {};
         if (warehouse_id) {
-            matchQuery.warehouse_id = require('mongoose').Types.ObjectId(warehouse_id);
+            matchQuery.warehouse_id = mongoose.Types.ObjectId(warehouse_id);
         }
 
         // Aggregate stock by warehouse
@@ -109,7 +110,7 @@ exports.getStockByWarehouse = async (req, res, next) => {
 // @desc    Get stock by product - all locations for each product
 // @route   GET /api/stock/by-product
 // @access  Private
-exports.getStockByProduct = async (req, res, next) => {
+export const getStockByProduct = async (req, res, next) => {
     try {
         const { category_id, search } = req.query;
 
@@ -172,7 +173,7 @@ exports.getStockByProduct = async (req, res, next) => {
 // @desc    Get stock by location - detailed view of a specific location
 // @route   GET /api/stock/by-location/:locationId
 // @access  Private
-exports.getStockByLocation = async (req, res, next) => {
+export const getStockByLocation = async (req, res, next) => {
     try {
         const { locationId } = req.params;
 
@@ -222,14 +223,14 @@ exports.getStockByLocation = async (req, res, next) => {
 // @desc    Get product availability listing - quick view of product availability
 // @route   GET /api/stock/availability
 // @access  Private
-exports.getProductAvailability = async (req, res, next) => {
+export const getProductAvailability = async (req, res, next) => {
     try {
         const { warehouse_id, low_stock_threshold } = req.query;
 
         let matchQuery = { quantity_on_hand: { $gt: 0 } };
 
         if (warehouse_id) {
-            matchQuery.warehouse_id = require('mongoose').Types.ObjectId(warehouse_id);
+            matchQuery.warehouse_id = mongoose.Types.ObjectId(warehouse_id);
         }
 
         // Aggregate available products
@@ -296,7 +297,7 @@ exports.getProductAvailability = async (req, res, next) => {
 // @desc    Get warehouse stock summary
 // @route   GET /api/stock/warehouse/:warehouseId/summary
 // @access  Private
-exports.getWarehouseStockSummary = async (req, res, next) => {
+export const getWarehouseStockSummary = async (req, res, next) => {
     try {
         const { warehouseId } = req.params;
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const deliveryItemSchema = new mongoose.Schema({
   delivery_order_id: { 
@@ -29,4 +29,4 @@ const deliveryItemSchema = new mongoose.Schema({
 
 deliveryItemSchema.index({ delivery_order_id: 1, product_id: 1 });
 
-module.exports = mongoose.model('DeliveryItem', deliveryItemSchema);
+export default mongoose.model('DeliveryItem', deliveryItemSchema);
