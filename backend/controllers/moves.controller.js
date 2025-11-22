@@ -1,4 +1,4 @@
-import moveHistory from "../dummy/moveHistory";
+import moveHistory from "../dummy/moveHistory.js";
 
 export const getMoveHistory = async (req, res) => {
   const {
@@ -10,7 +10,7 @@ export const getMoveHistory = async (req, res) => {
     toDate
   } = req.query;
 
-  let result = [...MOVE_HISTORY];
+  let result = [...moveHistory];
 
   // APPLY FILTERS
 

@@ -476,7 +476,7 @@ const changePassword = async (req, res) => {
     }
 };
 
-export default {
+export {
     signup,
     verifyEmail,
     resendOTP,

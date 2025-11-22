@@ -1,8 +1,19 @@
 import express from 'express';
 const router = express.Router();
-import warehouseController from '../controllers/warehouseController.js';
+import {
+	createWarehouse,
+	getWarehouses,
+	getWarehouse,
+	updateWarehouse,
+	deleteWarehouse,
+	createLocation,
+	getWarehouseLocations,
+	getLocationHierarchy,
+	getLocation,
+	updateLocation,
+	deleteLocation,
+} from '../controllers/warehouseController.js';
 import { protect } from '../middleware/auth.js';
-const { createWarehouse, getWarehouses, getWarehouse, updateWarehouse, deleteWarehouse, createLocation, getWarehouseLocations, getLocationHierarchy, getLocation, updateLocation, deleteLocation } = warehouseController;
 
 // Warehouse routes
 router.post('/', protect, createWarehouse);

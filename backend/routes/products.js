@@ -1,8 +1,22 @@
 import express from 'express';
 const router = express.Router();
-import productController from '../controllers/productController.js';
+import {
+	createCategory,
+	getCategories,
+	getCategoryHierarchy,
+	getCategory,
+	updateCategory,
+	deleteCategory,
+	createProduct,
+	getProducts,
+	getProduct,
+	searchProductBySKU,
+	updateProduct,
+	deleteProduct,
+	setInitialStock,
+	getProductStock,
+} from '../controllers/productController.js';
 import { protect } from '../middleware/auth.js';
-const { createCategory, getCategories, getCategoryHierarchy, getCategory, updateCategory, deleteCategory, createProduct, getProducts, getProduct, searchProductBySKU, updateProduct, deleteProduct, setInitialStock, getProductStock } = productController;
 
 // Category routes
 router.post('/categories', protect, createCategory);

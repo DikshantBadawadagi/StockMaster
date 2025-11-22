@@ -1,6 +1,13 @@
 import express from 'express';
 const router = express.Router();
-import * as stockController from '../controllers/stockController.js';
+import {
+	getStockOverview,
+	getStockByWarehouse,
+	getStockByProduct,
+	getStockByLocation,
+	getProductAvailability,
+	getWarehouseStockSummary,
+} from '../controllers/stockController.js';
 import { protect } from '../middleware/auth.js';
 
 // Stock view routes (all read-only)

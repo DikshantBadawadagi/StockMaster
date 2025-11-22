@@ -1,5 +1,15 @@
 import express from 'express';
-import authController from '../controllers/authController.js';
+import {
+    signup,
+    verifyEmail,
+    resendOTP,
+    login,
+    forgotPassword,
+    resetPassword,
+    getMe,
+    updateProfile,
+    changePassword,
+} from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import {
     validate,
@@ -11,7 +21,6 @@ import {
     changePasswordValidation,
 } from '../middleware/validator.js';
 
-const { signup, verifyEmail, resendOTP, login, forgotPassword, resetPassword, getMe, updateProfile, changePassword } = authController;
 
 const router = express.Router();
 
