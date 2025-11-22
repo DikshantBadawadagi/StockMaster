@@ -4,6 +4,9 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
+const warehouseRoutes = require('./routes/warehouses');
+const productRoutes = require('./routes/products');
+const stockRoutes = require('./routes/stock');
 
 // Load environment variables
 dotenv.config();
@@ -29,6 +32,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/warehouses', warehouseRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/stock', stockRoutes);
 
 // Error handler middleware (should be last)
 app.use(errorHandler);
