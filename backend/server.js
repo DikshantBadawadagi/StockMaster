@@ -4,6 +4,11 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import errorHandler from './middleware/errorHandler.js';
 import authRoutes from './routes/auth.js';
+import warehouseRoutes from './routes/warehouses.js';
+import productRoutes from './routes/products.js';
+import stockRoutes from './routes/stock.js';
+// Load environment variables
+dotenv.config();
 
 // Connect to database
 connectDB();
@@ -26,6 +31,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/warehouses', warehouseRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/stock', stockRoutes);
 
 // Error handler middleware (should be last)
 app.use(errorHandler);
